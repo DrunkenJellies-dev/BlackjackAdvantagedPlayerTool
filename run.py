@@ -28,9 +28,31 @@ class Card():
                 value = 10
         return value
     
+class Deck():
+    """
+    Class representing a deck of cards that the user and dealer will draw from to create hands and when they decide to hit
+    """
 
+    def __init__(self):
+        self.cards = []
 
+    def add_cards(self):
+        SUITS = ['Clubs', 'Diamonds', 'Spades', 'Hearts']
+        RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+        for suit in SUITS:
+            for rank in RANKS:
+                card = Card(rank, suit)
+                self.cards.append(card)
+    
+    def __len__(self):
+        return len(self.cards)
 
 
 card = Card("8", "Diamonds")
-print(card.value)
+print(card)
+
+deck = Deck()
+deck.add_cards()
+print(deck.cards)
+
+print(len(deck.cards))
