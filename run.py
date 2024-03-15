@@ -78,3 +78,6 @@ random.shuffle(deck.cards)
 print(deck.cards)
 
 print(len(deck.cards))
+
+player = Player("Callum")
+print(player)
