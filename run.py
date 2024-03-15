@@ -65,6 +65,17 @@ class Player():
     def __repr__(self):
         return f"{self.name}'s hand is {self.hand} with their current score being {self.score}"
 
+class Game():
+    """
+    Game class for the main game
+    """
+
+    def __init__(self):
+        self.players = []
+        
+    def add_player(self, player):
+        self.players.append(player)
+
 
 
 card = Card("8", "Diamonds")
@@ -81,3 +92,7 @@ print(len(deck.cards))
 
 player = Player("Callum")
 print(player)
+
+game = Game(player)
+game.add_player(player)
+print(game.players)
