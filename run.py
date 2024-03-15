@@ -70,29 +70,59 @@ class Game():
     Game class for the main game
     """
 
+    #initializes a list of players for 
     def __init__(self):
         self.players = []
         
+    #adds the player to the list players (used in the future to add multiple players)
     def add_player(self, player):
         self.players.append(player)
 
+    def game_setup(self):
+        #initializes the deck
+        deck = Deck()
+        #adds a full deck of cards to the 
+        deck.add_cards()
+
+        random.shuffle(deck.cards)
+
+        #loops through all players and adds 2 cards to their hands from teh randomized deck
+        if len(self.players) > 0:
+            for _ in range(2):
+                for player in self.players:
+                    player.hand.append(deck.cards.pop(0))
+        else:
+            print("Add players to start game!")
 
 
-card = Card("8", "Diamonds")
-print(card)
+# card = Card("8", "Diamonds")
+# print(card)
 
-deck = Deck()
-deck.add_cards()
-print(deck.cards)
+# deck = Deck()
+# deck.add_cards()
+# print(deck.cards)
 
-random.shuffle(deck.cards)
-print(deck.cards)
+# random.shuffle(deck.cards)
+# print(deck.cards)
 
-print(len(deck.cards))
+# print(len(deck.cards))
 
-player = Player("Callum")
-print(player)
+# player = Player("Callum")
+# print(player)
 
-game = Game(player)
-game.add_player(player)
-print(game.players)
+# game = Game(player)
+# game.add_player(player)
+# print(game.players)
+
+#start game here
+player1 = Player("Callum")
+player2 = Player("Ella")
+
+game = Game()
+game.add_player(player1)
+game.add_player(player2)
+
+game.game_setup()
+
+print(f"{player1.name} has hand {player1.hand}")
+print(f"{player2.name} has hand {player2.hand}")
