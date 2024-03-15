@@ -49,6 +49,22 @@ class Deck():
     #returns the length of the deck of cards (will be used in the future for calculating the true could of the cards)
     def __len__(self):
         return len(self.cards)
+    
+class Player():
+    """
+    Class representing the player that stores the players name, current hand, and current score
+    """
+
+    #initializes player variables
+    def __init__(self, name):
+        self.name = name
+        self.hand = []
+        self.score = 0
+
+    #returns printable representation of player's name, hand, and score 
+    def __repr__(self):
+        return f"{self.name}'s hand is {self.hand} with their current score being {self.score}"
+
 
 
 card = Card("8", "Diamonds")
