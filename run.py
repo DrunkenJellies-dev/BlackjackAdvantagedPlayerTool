@@ -33,9 +33,11 @@ class Deck():
     Class representing a deck of cards that the user and dealer will draw from to create hands and when they decide to hit
     """
 
+    #initializes deck list
     def __init__(self):
         self.cards = []
 
+    #loops through all ranks and suits to create a deck of cards 
     def add_cards(self):
         SUITS = ['Clubs', 'Diamonds', 'Spades', 'Hearts']
         RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
@@ -44,6 +46,7 @@ class Deck():
                 card = Card(rank, suit)
                 self.cards.append(card)
     
+    #returns the length of the deck of cards (will be used in the future for calculating the true could of the cards)
     def __len__(self):
         return len(self.cards)
 
@@ -53,6 +56,9 @@ print(card)
 
 deck = Deck()
 deck.add_cards()
+print(deck.cards)
+
+random.shuffle(deck.cards)
 print(deck.cards)
 
 print(len(deck.cards))
