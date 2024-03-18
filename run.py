@@ -1,5 +1,23 @@
 import random 
 
+def validate_data(value):
+    """
+    Used to validate the data of the amount of players
+    The amount of players needs to be an integer
+    The amount of players also need to be between 1 and 6
+    """
+    try:
+        if not (1 <= int(value) <= 6):
+            raise ValueError(
+                f"The integer has to be between 1 and 6, you provided {value}"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+        return False
+    
+    return True
+
+
 class Card():
     """
     Class to represent card values that can be used when playing to determine the value of the hand
@@ -116,6 +134,9 @@ class Game():
             self.scores.append(player.score)
 
 class Display():
+    """
+    Class Display creating the menu screen and adds the amount of players that are playing 
+    """
     def __init__(self):
         print("""
                  .-~~-.           /\        _     _            _    _            _             /\        .-~~~-__-~~~-.
@@ -128,7 +149,29 @@ class Display():
                                                                  |__/                         '--`
             """)
         
-    
+    def add_players(self):
+        #getting the number of players
+        player_count = None
+        while True:
+            print("Please enter the number of players. (There can only be between 1-6 players)")
+            print("The amount of players will alter the strategy suggested.")
+            player_count = input("Enter the player count here: \n")
+
+            if validate_data(player_count):
+                print(f"You have selected: {player_count}.")
+                break
+            
+        player_count = int(player_count)
+
+        
+
+                
+                
+
+
+
+
+        
 
 # card = Card("8", "Diamonds")
 # print(card)
