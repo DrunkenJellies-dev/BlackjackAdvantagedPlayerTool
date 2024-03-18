@@ -81,17 +81,25 @@ class Game():
     def game_setup(self):
         #initializes the deck
         deck = Deck()
-        #adds a full deck of cards to the 
+        #adds a full deck of cards to the deck
         deck.add_cards()
 
+        #shuffles the deck of cards
         random.shuffle(deck.cards)
 
-        #loops through all players and adds 2 cards to their hands from teh randomized deck
+        #loops through all players and adds 2 cards to their hands from the shuffled deck
         if len(self.players) > 0:
+            #using a loop like this will deal the cards in a way that is standard at a real black jack table (Not two cards for each player at a time)
             for _ in range(2):
                 for player in self.players:
-                    player.hand.append(deck.cards.pop(0))
+                    #stores and removes the first card from the shuffled deck
+                    card = deck.cards.pop(0)
+                    #adds the card to the current players hand
+                    player.hand.append(card)
+                    #adds the value of the card drawn to the players hand
+                    player.score += card.value
         else:
+            #Error validation if there are no players
             print("Add players to start game!")
 
 
