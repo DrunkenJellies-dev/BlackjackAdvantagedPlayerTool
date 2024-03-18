@@ -73,6 +73,7 @@ class Game():
     #initializes a list of players for 
     def __init__(self):
         self.players = []
+        self.scores = []
         
     #adds the player to the list players (used in the future to add multiple players)
     def add_player(self, player):
@@ -101,6 +102,18 @@ class Game():
         else:
             #Error validation if there are no players
             print("Add players to start game!")
+
+        #Adjusting the score of the players cards due to special case scenario
+        for player in self.players:
+            #If the player gets drawn 2 aces
+            if player.score == 22:
+                #Sets the first ace to a 1 
+                #(blackjack aces can be either have a value of 1 or 11 depending if the player has gone over 21)
+                player.hand[0].rank = "1"
+                #sets the players score to 12 
+                #(One Ace having the value of 1 and the second ace having the value of 11)
+                player.score = 12
+            self.scores.append(player.score)
 
 
 # card = Card("8", "Diamonds")
@@ -132,5 +145,8 @@ game.add_player(player2)
 
 game.game_setup()
 
-print(f"{player1.name} has hand {player1.hand}")
-print(f"{player2.name} has hand {player2.hand}")
+# print(f"{player1.name} has hand {player1.hand}")
+# print(f"{player2.name} has hand {player2.hand}")
+
+for player in game.players:
+    print(f"{player.name} has hand {player.hand}.\n This gives score {player.score}")
