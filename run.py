@@ -88,10 +88,11 @@ class Game():
     Game class for the main game
     """
 
-    #initializes a list of players for 
+    #initializes a list of players, current scores and the deck
     def __init__(self):
         self.players = []
         self.scores = []
+        self.deck = []
         
     #adds the player to the list players (used in the future to add multiple players)
     def add_player(self, player):
@@ -121,17 +122,38 @@ class Game():
             #Error validation if there are no players
             print("Add players to start game!")
 
+        #Update deck within the game instance
+            self.deck = deck.cards
+
         #Adjusting the score of the players cards due to special case scenario
         for player in self.players:
             #If the player gets drawn 2 aces
             if player.score == 22:
                 #Sets the first ace to a 1 
                 #(blackjack aces can be either have a value of 1 or 11 depending if the player has gone over 21)
-                player.hand[0].rank = "1"
+                player.hand[0].rank = "Ace-1"
                 #sets the players score to 12 
                 #(One Ace having the value of 1 and the second ace having the value of 11)
                 player.score = 12
             self.scores.append(player.score)
+
+    def next_card(self, player):
+        #remove a card from the top of the deck 
+        card = self.deck.cards.pop(0)
+        player.hand.append(card)
+        player.score += card.value
+
+        #checks if the player has gone over 
+        if player.score > 21:
+            #loops through all the cards in the players hand
+            for card in player.hand:
+                #checks if the players hasa hard ace in their hand
+                if card.rank == 'Ace':
+                    #changes the hard ace to a soft ace
+                    card.rank = 'Ace-1'
+                    player.score -= 10
+                    break
+
 
 class Display():
     """
@@ -180,7 +202,7 @@ class Display():
         #returns the list of players
         return list_players
     
-    def play_first_round(self, list_players):
+    def play_game(self, list_players):
         #starting the instance of the game
         game = Game()
         #Adding the players
@@ -193,6 +215,9 @@ class Display():
         #Show hand for each player
         for player in game.players:
             print(f"{player.name} has a {player.hand[0]} and a {player.hand[1]}\nTheir score is currently {player.score}")
+        
+        
+
 
 #start game
 display = Display()
@@ -201,4 +226,4 @@ display = Display()
 list_players = display.add_players()
 
 #play the first round
-display.play_first_round(list_players)
+display.play_game(list_players)
