@@ -135,7 +135,7 @@ class Game():
 
 class Display():
     """
-    Class Display creating the menu screen and adds the amount of players that are playing 
+    Class Display used for displaying information to the user at the beginning of the game when setting up  
     """
     def __init__(self):
         print("""
@@ -150,26 +150,37 @@ class Display():
             """)
         
     def add_players(self):
-        #getting the number of players
+        #getting the number of players from the user
         player_count = None
         while True:
             print("Please enter the number of players. (There can only be between 1-6 players)")
             print("The amount of players will alter the strategy suggested.")
+            #takes the users input
             player_count = input("Enter the player count here: \n")
 
+            #making sure the information that the player has given is within the correct parameters
             if validate_data(player_count):
+                #letting the players know the amount they have selected
                 print(f"You have selected: {player_count}.")
+                #breaking out of the true while loop as the information is correct
                 break
             
+        #storing the amount of players as an integer
         player_count = int(player_count)
 
+        #initializing the list of players 
         list_players = []
 
+        #loops through each player and allows them to enter a name
         for player in range(player_count):
             name = input(f"Player { player + 1 } please enter your name: ")
+            #adds the newly created player to the list 
             list_players.append(Player(name))
 
+        #returns the list of players
         return list_players
+    
+            
 
         
 
