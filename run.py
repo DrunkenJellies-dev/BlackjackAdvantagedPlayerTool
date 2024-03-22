@@ -180,49 +180,25 @@ class Display():
         #returns the list of players
         return list_players
     
-            
+    def play_first_round(self, list_players):
+        #starting the instance of the game
+        game = Game()
+        #Adding the players
+        for player in list_players:
+            game.add_player(player)
 
-        
+        #Play the first round
+        game.game_setup()
 
-                
-                
+        #Show hand for each player
+        for player in game.players:
+            print(f"{player.name} has a {player.hand[0]} and a {player.hand[1]}\nTheir score is currently {player.score}")
 
+#start game
+display = Display()
 
+#Add players
+list_players = display.add_players()
 
-
-        
-
-# card = Card("8", "Diamonds")
-# print(card)
-
-# deck = Deck()
-# deck.add_cards()
-# print(deck.cards)
-
-# random.shuffle(deck.cards)
-# print(deck.cards)
-
-# print(len(deck.cards))
-
-# player = Player("Callum")
-# print(player)
-
-# game = Game(player)
-# game.add_player(player)
-# print(game.players)
-
-#start game here
-player1 = Player("Callum")
-player2 = Player("Ella")
-
-game = Game()
-game.add_player(player1)
-game.add_player(player2)
-
-game.game_setup()
-
-# print(f"{player1.name} has hand {player1.hand}")
-# print(f"{player2.name} has hand {player2.hand}")
-
-for player in game.players:
-    print(f"{player.name} has hand {player.hand}.\n This gives score {player.score}")
+#play the first round
+display.play_first_round(list_players)
