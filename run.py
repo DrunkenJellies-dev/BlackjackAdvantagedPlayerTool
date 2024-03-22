@@ -216,8 +216,30 @@ class Display():
         for player in game.players:
             print(f"{player.name} has a {player.hand[0]} and a {player.hand[1]}\nTheir score is currently {player.score}")
         
-        
+        #ask if the player wants to hit or stand
+        player_want_cards = len(game.players)
 
+        #game stops if all players stand
+        while player_want_cards > 0:
+            for player in game.players:
+                valid = 1
+                while valid == 1:
+                    if player.score > 21:
+                        answer = 's'
+                    else:
+                        answer = input(f"{player.name} would you like to (h)it or (s)tand?").toLower()
+                        if answer == 'h' or 'hit':
+                            game.next_card(player)
+                            valid = 0
+                            print(f"{player.name} recieved a {player.hand[-1]}.\nYour score is now {player.score}.")
+                        elif answer == 's' or 'stand':
+                            valid = 0
+                            player_want_cards -= 1
+                        else:
+                            valid = 1
+                    
+
+                
 
 #start game
 display = Display()
