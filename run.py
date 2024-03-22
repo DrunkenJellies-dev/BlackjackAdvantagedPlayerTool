@@ -163,6 +163,14 @@ class Display():
             
         player_count = int(player_count)
 
+        list_players = []
+
+        for player in range(player_count):
+            name = input(f"Player { player + 1 } please enter your name: ")
+            list_players.append(Player(name))
+
+        return list_players
+
         
 
                 
