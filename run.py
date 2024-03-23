@@ -123,7 +123,7 @@ class Game():
             print("Add players to start game!")
 
         #Update deck within the game instance
-            self.deck = deck.cards
+        self.deck = deck.cards
 
         #Adjusting the score of the players cards due to special case scenario
         for player in self.players:
@@ -139,7 +139,7 @@ class Game():
 
     def next_card(self, player):
         #remove a card from the top of the deck 
-        card = self.deck.cards.pop(0)
+        card = self.deck.pop(0)
         player.hand.append(card)
         player.score += card.value
 
@@ -230,11 +230,11 @@ class Display():
                     if player.score > 21:
                         answer = 's'
                     else:
-                        answer = input(f"{player.name} would you like to (h)it or (s)tand?").toLower()
+                        answer = input(f"{player.name} would you like to (h)it or (s)tand?").lower()
                         if answer == 'h' or 'hit':
                             game.next_card(player)
                             valid = 0
-                            print(f"{player.name} recieved a {player.hand[-1]}.\nYour score is now {player.score}.")
+                            print(f"{player.name} received a {player.hand[-1]}.\nYour score is now {player.score}.")
                         elif answer == 's' or 'stand':
                             valid = 0
                             player_want_cards -= 1
