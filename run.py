@@ -186,9 +186,6 @@ class Display():
                 print(f"You have selected: {player_count}.")
                 #breaking out of the true while loop as the information is correct
                 break
-            
-            #Adding the dealer
-            list_players.append(Player('Dealer'))
 
         #storing the amount of players as an integer
         player_count = int(player_count)
@@ -201,6 +198,9 @@ class Display():
             name = input(f"Player { player + 1 } please enter your name: ")
             #adds the newly created player to the list 
             list_players.append(Player(name))
+
+        #Adding the dealer
+        list_players.append(Player('Dealer'))
 
         #returns the list of players
         return list_players
@@ -231,11 +231,12 @@ class Display():
                         answer = 's'
                     else:
                         answer = input(f"{player.name} would you like to (h)it or (s)tand?").lower()
-                        if answer == 'h' or 'hit':
+                        print()
+                        if answer == 'h' or answer == 'hit':
                             game.next_card(player)
                             valid = 0
                             print(f"{player.name} received a {player.hand[-1]}.\nYour score is now {player.score}.")
-                        elif answer == 's' or 'stand':
+                        elif answer == 's' or answer == 'stand':
                             valid = 0
                             player_want_cards -= 1
                         else:
@@ -245,6 +246,9 @@ class Display():
         while game.players[-1].score < 17:
             #Adds card to the dealers hand
             game.next_card(game.players[-1])
+            print(f"{game.players[-1].name} has drawn a {game.players[-1].hand[-1]}.\nTheir score is now {game.players[-1].score}")
+            if game.players[-1].score >= 17:
+                print(f"{game.players[-1].name} now stands.")
 
         #Decides the winner for the round 
         for player in game.players[0 : -1]:
