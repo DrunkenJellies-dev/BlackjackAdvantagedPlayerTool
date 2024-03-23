@@ -319,13 +319,13 @@ class Display():
                         else:
                             print("You cannot double down at this time.")
                     elif answer == 'sp' or answer == 'split':
-                        valid = 0
                         game.split_cards(player)
                         while True:
                             choice = input(f"{player.name}, do you want to hit or stand for your split hand? (h/s): ").lower()
                             if choice == 'h' or choice == 'hit':
                                 game.next_card(player, split=True)
                                 print(f"{player.name} received a {player.split_hand[-1]} for their split hand.\nYour split score is now {player.split_score}.")
+                                valid = 0
                             elif choice == 's' or choice == 'stand':
                                 break
                             else:
