@@ -137,7 +137,7 @@ class Game():
                 player.score = 12
             self.scores.append(player.score)
 
-    def next_card(self, player):
+    def next_card(self, player, split = False):
         #remove a card from the top of the deck 
         card = self.deck.pop(0)
         player.hand.append(card)
@@ -153,6 +153,40 @@ class Game():
                     card.rank = 'Ace-1'
                     player.score -= 10
                     break
+
+        # Check for split hand and adjust score accordingly
+        if split and player.score > 21:
+            for card in player.split_hand:
+                if card.rank == 'Ace':
+                    card.rank = 'Ace-1'
+                    player.score -= 10
+                    break
+
+    def split_cards(self, player):
+        """
+        Allows a player to split their cards if they have two cards of the same rank.
+        """
+        # Check if the player has exactly two cards and they are of the same rank
+        if len(player.hand) == 2 and player.hand[0].rank == player.hand[1].rank:
+            while True:
+                choice = input(f"{player.name}, do you want to split your cards? (y/n): ").lower()
+                if choice == 'y' or choice == 'yes':
+                    # Create a new hand for the split
+                    split_hand = [player.hand.pop(1)]
+                    player.score -= split_hand[0].value  # Subtract the value of the split card from the original hand
+                    player.split_hand = split_hand
+                    # Draw a new card for each hand
+                    self.next_card(player)
+                    self.next_card(player)
+                    self.next_card(player, split=True)  # For the split hand
+                    print(f"{player.name} has split their cards.")
+                    break
+                elif choice == 'n' or choice == 'no':
+                    break
+                else:
+                    print("Invalid choice. Please enter 'y' or 'n'.")
+        else:
+            print(f"Sorry {player.name}, your unable to split your cards. You need two cards of the same rank.")
 
 
 class Display():
@@ -235,7 +269,7 @@ class Display():
                     if player.score > 21:
                         answer = 's'
                     else:
-                        answer = input(f"{player.name} would you like to (h)it or (s)tand?").lower()
+                        answer = input(f"{player.name} would you like to (h)it, (s)tand, or (sp)lit?").lower()
                         print()
                     if answer == 'h' or answer == 'hit':
                         game.next_card(player)
@@ -244,6 +278,9 @@ class Display():
                     elif answer == 's' or answer == 'stand':
                         valid = 0
                         player_want_cards -= 1
+                    elif answer == 'sp' or answer == 'split':
+                        valid = 0
+                        game.split_cards(player)
                     else:
                         valid = 1
 
