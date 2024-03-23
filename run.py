@@ -215,12 +215,17 @@ class Display():
         #Play the first round
         game.game_setup()
 
+        num_players_without_dealer = len(game.players) - 1
+
         #Show hand for each player
-        for player in game.players:
-            print(f"{player.name} has a {player.hand[0]} and a {player.hand[1]}\nTheir score is currently {player.score}")
+        for player_num in range(num_players_without_dealer):
+            print(f"{game.players[player_num].name} has a {game.players[player_num].hand[0]} and a {game.players[player_num].hand[1]}\nTheir score is currently {game.players[player_num].score}")
+
+        #Print statement for the dealer as the players aren't normally able ot see their second card until the dealer starts playing
+        print(f"{game.players[-1].name} has a {game.players[-1].hand[0]} and X.\nTheir score is currently {game.players[-1].score - game.players[-1].hand[1].value}")
         
         #ask if the player wants to hit or stand
-        player_want_cards = len(game.players) - 1 #removing 1 player due to the dealer now being a member of the players
+        player_want_cards = num_players_without_dealer #removing 1 player due to the dealer now being a member of the players
 
         #game stops if all players stand
         while player_want_cards > 0:
@@ -241,6 +246,9 @@ class Display():
                             player_want_cards -= 1
                         else:
                             valid = 1
+
+        #revealed the dealers second card
+        print(f"{game.players[-1]} reveals their second card which was a {game.players[-1].hand[1]}.\nTheir score is now {game.players[-1].score}.")
 
         #The dealer plays cards in accordance to standard blackjack rules (dealer keeps 'hitting' until their score is 17 or greater)
         while game.players[-1].score < 17:
