@@ -89,7 +89,7 @@ class Player():
     def place_bet(self, amount):
         if amount in [10, 25, 50, 100]:
             if amount <= self.credits:
-                self.bet = amount
+                self.bet += amount
                 self.credits -= amount
                 print(f"{self.name} placed a bet of {amount} credits.")
             else:
@@ -298,7 +298,7 @@ class Display():
                     if player.score > 21:
                         answer = 's'
                     else:
-                        answer = input(f"{player.name} would you like to (h)it, (s)tand, or (sp)lit?").lower()
+                        answer = input(f"{player.name} would you like to (h)it, (s)tand, (d)ouble or (sp)lit?").lower()
                         print()
                     if answer == 'h' or answer == 'hit':
                         game.next_card(player)
@@ -307,6 +307,15 @@ class Display():
                     elif answer == 's' or answer == 'stand':
                         valid = 0
                         player_want_cards -= 1
+                    elif answer == 'd' or answer == 'double':
+                        if player.credits >= player.bet:  # Can only double on initial hand with enough credits
+                            player.place_bet(player.bet)  # Double the bet
+                            game.next_card(player)
+                            valid = 0
+                            player_want_cards -= 1
+                            print(f"{player.name} doubled down and received a {player.hand[-1]}.\nYour score is now {player.score}.")
+                        else:
+                            print("You cannot double down at this time.")
                     elif answer == 'sp' or answer == 'split':
                         valid = 0
                         game.split_cards(player)
