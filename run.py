@@ -237,15 +237,15 @@ class Display():
                     else:
                         answer = input(f"{player.name} would you like to (h)it or (s)tand?").lower()
                         print()
-                        if answer == 'h' or answer == 'hit':
-                            game.next_card(player)
-                            valid = 0
-                            print(f"{player.name} received a {player.hand[-1]}.\nYour score is now {player.score}.")
-                        elif answer == 's' or answer == 'stand':
-                            valid = 0
-                            player_want_cards -= 1
-                        else:
-                            valid = 1
+                    if answer == 'h' or answer == 'hit':
+                        game.next_card(player)
+                        valid = 0
+                        print(f"{player.name} received a {player.hand[-1]}.\nYour score is now {player.score}.")
+                    elif answer == 's' or answer == 'stand':
+                        valid = 0
+                        player_want_cards -= 1
+                    else:
+                        valid = 1
 
         #revealed the dealers second card
         print(f"{game.players[-1]} reveals their second card which was a {game.players[-1].hand[1]}.\nTheir score is now {game.players[-1].score}.")
