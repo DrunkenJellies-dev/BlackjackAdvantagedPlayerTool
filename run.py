@@ -246,8 +246,21 @@ class Display():
             #Adds card to the dealers hand
             game.next_card(game.players[-1])
 
-       
+        #Decides the winner for the round 
+        for player in game.players[0 : -1]:
+            if player.score > 21:
+                print(f"{player.name} is bust with the score {player.score}.")
+            elif game.players[-1].score > 21:
+                print(f"{player.name} wins with score {player.score}.\n{game.players[-1].name} is bust with score {game.players[-1].score}.")
+            elif player.score > game.players[-1].score:
+                print(f"{player.name} wins with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+            elif player.score == game.players[-1].score:
+                print(f"{player.name} draws with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+            else:
+                print(f"{player.name} has lost with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
 
+
+            
                     
 
                 
