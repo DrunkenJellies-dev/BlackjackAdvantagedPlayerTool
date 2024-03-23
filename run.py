@@ -187,6 +187,9 @@ class Display():
                 #breaking out of the true while loop as the information is correct
                 break
             
+            #Adding the dealer
+            list_players.append(Player('Dealer'))
+
         #storing the amount of players as an integer
         player_count = int(player_count)
 
@@ -217,11 +220,11 @@ class Display():
             print(f"{player.name} has a {player.hand[0]} and a {player.hand[1]}\nTheir score is currently {player.score}")
         
         #ask if the player wants to hit or stand
-        player_want_cards = len(game.players)
+        player_want_cards = len(game.players) - 1 #removing 1 player due to the dealer now being a member of the players
 
         #game stops if all players stand
         while player_want_cards > 0:
-            for player in game.players:
+            for player in game.players[0 : -1]:
                 valid = 1
                 while valid == 1:
                     if player.score > 21:
@@ -237,6 +240,14 @@ class Display():
                             player_want_cards -= 1
                         else:
                             valid = 1
+
+        #The dealer plays cards in accordance to standard blackjack rules (dealer keeps 'hitting' until their score is 17 or greater)
+        while game.players[-1].score < 17:
+            #Adds card to the dealers hand
+            game.next_card(game.players[-1])
+
+       
+
                     
 
                 
