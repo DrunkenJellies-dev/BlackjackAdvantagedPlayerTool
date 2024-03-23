@@ -74,14 +74,28 @@ class Player():
     """
 
     #initializes player variables
-    def __init__(self, name):
+    def __init__(self, name, starting_credits=100):
         self.name = name
         self.hand = []
         self.score = 0
+        self.credits = starting_credits
+        self.bet = 0
 
     #returns printable representation of player's name, hand, and score 
     def __repr__(self):
-        return f"{self.name}'s hand is {self.hand} with their current score being {self.score}"
+        return f"{self.name}'s hand is {self.hand} with their current score being {self.score} Credits: {self.credits}"
+    
+    # method to place a bet
+    def place_bet(self, amount):
+        if amount in [10, 25, 50, 100]:
+            if amount <= self.credits:
+                self.bet = amount
+                self.credits -= amount
+                print(f"{self.name} placed a bet of {amount} credits.")
+            else:
+                print("Insufficient credits. Please place a lower bet.")
+        else:
+            print("Invalid bet amount. Please choose from 10, 25, 50, or 100 credits.")
 
 class Game():
     """
@@ -241,6 +255,16 @@ class Display():
         #Adding the dealer
         list_players.append(Player('Dealer'))
 
+        # ask players to place bets
+        for player in list_players[:-1]:  # Excluding the dealer
+            while True:
+                try:
+                    bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
+                    player.place_bet(bet_amount)
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a valid bet amount.")
+
         #returns the list of players
         return list_players
     
@@ -313,28 +337,43 @@ class Display():
         for player in game.players[0 : -1]:
             if player.score > 21:
                 print(f"{player.name} is bust with the score {player.score}.")
+                player.bet = 0  # Player loses their bet
             elif game.players[-1].score > 21:
                 print(f"{player.name} wins with score {player.score}.\n{game.players[-1].name} is bust with score {game.players[-1].score}.")
+                player.credits += 2 * player.bet  # Player wins double the bet
+                player.bet = 0
             elif player.score > game.players[-1].score:
                 print(f"{player.name} wins with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                player.credits += 2 * player.bet  # Player wins double the bet
+                player.bet = 0
             elif player.score == game.players[-1].score:
                 print(f"{player.name} draws with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                player.credits += player.bet  # Player gets back their bet
+                player.bet = 0
             else:
                 print(f"{player.name} has lost with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                player.bet = 0  # Player loses their bet
 
             # Determine outcome for split hand
             if hasattr(player, 'split_hand'):
                 if player.split_score > 21:
                     print(f"{player.name}'s split hand is bust with the score {player.split_score}.")
+                    player.bet = 0  # Player loses their split bet
                 elif game.players[-1].score > 21:
                     print(f"{player.name}'s split hand wins with score {player.split_score}.\n{game.players[-1].name} is bust with score {game.players[-1].score}.")
+                    player.credits += 2 * player.bet  # Player wins double the split bet
                 elif player.split_score > game.players[-1].score:
                     print(f"{player.name}'s split hand wins with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                    player.credits += 2 * player.bet  # Player wins double the split bet
                 elif player.split_score == game.players[-1].score:
                     print(f"{player.name}'s split hand draws with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                    player.credits += player.bet  # Player gets back their split bet
                 else:
                     print(f"{player.name}'s split hand has lost with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                    player.bet = 0  # Player loses their split bet
 
+        for player in game.players[0 : -1]:
+            print(f"{player.name} ended with {player.credits}.")
 
             
                     
