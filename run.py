@@ -140,8 +140,13 @@ class Game():
     def next_card(self, player, split = False):
         #remove a card from the top of the deck 
         card = self.deck.pop(0)
-        player.hand.append(card)
-        player.score += card.value
+
+        if split:
+            player.split_hand.append(card)
+            player.split_score += card.value
+        else:
+            player.hand.append(card)
+            player.score += card.value
 
         #checks if the player has gone over 
         if player.score > 21:
@@ -155,7 +160,7 @@ class Game():
                     break
 
         # Check for split hand and adjust score accordingly
-        if split and player.score > 21:
+        if split and player.split_score > 21:
             for card in player.split_hand:
                 if card.rank == 'Ace':
                     card.rank = 'Ace-1'
@@ -169,14 +174,14 @@ class Game():
         # Check if the player has exactly two cards and they are of the same rank
         if len(player.hand) == 2 and player.hand[0].rank == player.hand[1].rank:
             while True:
-                choice = input(f"{player.name}, do you want to split your cards? (y/n): ").lower()
+                choice = input(f"{player.name}, are you sure you want to split your cards? (y/n): ").lower()
                 if choice == 'y' or choice == 'yes':
                     # Create a new hand for the split
                     split_hand = [player.hand.pop(1)]
+                    player.split_score = split_hand[0].value
                     player.score -= split_hand[0].value  # Subtract the value of the split card from the original hand
                     player.split_hand = split_hand
                     # Draw a new card for each hand
-                    self.next_card(player)
                     self.next_card(player)
                     self.next_card(player, split=True)  # For the split hand
                     print(f"{player.name} has split their cards.")
@@ -281,6 +286,15 @@ class Display():
                     elif answer == 'sp' or answer == 'split':
                         valid = 0
                         game.split_cards(player)
+                        while True:
+                            choice = input(f"{player.name}, do you want to hit or stand for your split hand? (h/s): ").lower()
+                            if choice == 'h' or choice == 'hit':
+                                game.next_card(player, split=True)
+                                print(f"{player.name} received a {player.split_hand[-1]} for their split hand.\nYour split score is now {player.split_score}.")
+                            elif choice == 's' or choice == 'stand':
+                                break
+                            else:
+                                print("Invalid choice. Please enter 'h' or 's'.")
                     else:
                         valid = 1
 
@@ -307,6 +321,19 @@ class Display():
                 print(f"{player.name} draws with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
             else:
                 print(f"{player.name} has lost with score {player.score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+
+            # Determine outcome for split hand
+            if hasattr(player, 'split_hand'):
+                if player.split_score > 21:
+                    print(f"{player.name}'s split hand is bust with the score {player.split_score}.")
+                elif game.players[-1].score > 21:
+                    print(f"{player.name}'s split hand wins with score {player.split_score}.\n{game.players[-1].name} is bust with score {game.players[-1].score}.")
+                elif player.split_score > game.players[-1].score:
+                    print(f"{player.name}'s split hand wins with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                elif player.split_score == game.players[-1].score:
+                    print(f"{player.name}'s split hand draws with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
+                else:
+                    print(f"{player.name}'s split hand has lost with score {player.split_score}.\n{game.players[-1].name} has score {game.players[-1].score}.")
 
 
             
