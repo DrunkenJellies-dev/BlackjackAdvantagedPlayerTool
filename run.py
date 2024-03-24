@@ -229,7 +229,6 @@ class Display():
         player_count = None
         while True:
             print("Please enter the number of players. (There can only be between 1-6 players)")
-            print("The amount of players will alter the strategy suggested.")
             #takes the users input
             player_count = input("Enter the player count here: \n")
 
@@ -259,10 +258,11 @@ class Display():
         for player in list_players[:-1]:  # Excluding the dealer
             while True:
                 try: 
+                    # gets the bet amount that each players wants
                     bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
-                    current_bet = player.credits
-                    player.place_bet(bet_amount)
-                    if player.credits < current_bet:
+                    current_bet = player.credits #gets the current credit amount from the player
+                    player.place_bet(bet_amount) #places the players bet
+                    if player.credits < current_bet: #checks if the player has successfully placed a bet and breaks out loop
                         break
                     else:
                         print(f"{player.name} entered an invalid betting amount. Please enter a valid betting amount.")
@@ -417,6 +417,6 @@ def main():
             print("Playing another round!")
         else:
             print("Thank you for playing!")
-            break
+            break #quits when the players want to stop playing
 
 main()
