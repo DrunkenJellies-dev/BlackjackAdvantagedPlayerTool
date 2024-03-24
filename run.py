@@ -87,17 +87,15 @@ class Player():
     
     # method to place a bet
     def place_bet(self, amount):
-        while True:
-            if amount in [10, 25, 50, 100]:
-                if amount <= self.credits:
-                    self.bet += amount
-                    self.credits -= amount
-                    print(f"{self.name} placed a bet of {amount} credits.")
-                    break
-                else:
-                    print("Insufficient credits. Please place a lower bet.")
+        if amount in [10, 25, 50, 100]:
+            if amount <= self.credits:
+                self.bet += amount
+                self.credits -= amount
+                print(f"{self.name} placed a bet of {amount} credits.")
             else:
-                print("Invalid bet amount. Please choose from 10, 25, 50, or 100 credits.")
+                print("Insufficient credits. Please place a lower bet.")
+        else:
+            print("Invalid bet amount. Please choose from 10, 25, 50, or 100 credits.")
 
 class Game():
     """
@@ -260,12 +258,13 @@ class Display():
         # ask players to place bets
         for player in list_players[:-1]:  # Excluding the dealer
             while True:
-                try:
-                    bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
-                    player.place_bet(bet_amount)
+                bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
+                current_bet = player.credits
+                player.place_bet(bet_amount)
+                if player.credits < current_bet:
                     break
-                except ValueError:
-                    print("Invalid input. Please enter a valid bet amount.")
+                else:
+                    print(f"{player.name} entered an invalid betting amount. Please enter a valid betting amount.")
 
         #returns the list of players
         return list_players
