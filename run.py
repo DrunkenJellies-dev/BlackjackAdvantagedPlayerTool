@@ -83,7 +83,7 @@ class Player():
 
     #returns printable representation of player's name, hand, and score 
     def __repr__(self):
-        return f"{self.name}'s hand is {self.hand} with their current score being {self.score} Credits: {self.credits}"
+        return f"{self.name}'s hand is {self.hand} with their current score being {self.score} | Credits: {self.credits}"
     
     # method to place a bet
     def place_bet(self, amount):
@@ -338,7 +338,7 @@ class Display():
                         valid = 1
 
         #revealed the dealers second card
-        print(f"{game.players[-1]} reveals their second card which was a {game.players[-1].hand[1]}.\nTheir score is now {game.players[-1].score}.")
+        print(f"{game.players[-1].name} reveals their second card which was a {game.players[-1].hand[1]}.\nTheir score is now {game.players[-1].score}.")
 
         #The dealer plays cards in accordance to standard blackjack rules (dealer keeps 'hitting' until their score is 17 or greater)
         while game.players[-1].score < 17:
