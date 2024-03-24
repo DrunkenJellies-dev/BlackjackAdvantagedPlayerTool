@@ -258,13 +258,16 @@ class Display():
         # ask players to place bets
         for player in list_players[:-1]:  # Excluding the dealer
             while True:
-                bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
-                current_bet = player.credits
-                player.place_bet(bet_amount)
-                if player.credits < current_bet:
-                    break
-                else:
-                    print(f"{player.name} entered an invalid betting amount. Please enter a valid betting amount.")
+                try: 
+                    bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
+                    current_bet = player.credits
+                    player.place_bet(bet_amount)
+                    if player.credits < current_bet:
+                        break
+                    else:
+                        print(f"{player.name} entered an invalid betting amount. Please enter a valid betting amount.")
+                except ValueError as e:
+                    print(f"Invalid data: {e}, please try again.\n")
 
         #returns the list of players
         return list_players
@@ -388,7 +391,7 @@ class Display():
                     player.bet = 0  # Player loses their split bet
 
         for player in game.players[0 : -1]:
-            print(f"{player.name} ended with {player.credits}.")
+            print(f"{player.name} ended with {player.credits} credits.")
 
             
                     
