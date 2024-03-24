@@ -205,7 +205,7 @@ class Game():
                 else:
                     print("Invalid choice. Please enter 'y' or 'n'.")
         else:
-            print(f"Sorry {player.name}, your unable to split your cards. You need two cards of the same rank.")
+            print(f"Sorry {player.name}, you're unable to split your cards. You need two cards of the same rank.")
 
 
 class Display():
@@ -281,7 +281,7 @@ class Display():
 
         #Play the first round
         game.game_setup()
-
+        
         num_players_without_dealer = len(game.players) - 1
 
         #Show hand for each player
@@ -393,16 +393,14 @@ class Display():
         for player in game.players[0 : -1]:
             print(f"{player.name} ended with {player.credits} credits.")
 
-            
-                    
+def main():
+    #start game
+    display = Display()
 
-                
+    #Add players
+    list_players = display.add_players()
 
-#start game
-display = Display()
+    #play the first round
+    display.play_game(list_players)
 
-#Add players
-list_players = display.add_players()
-
-#play the first round
-display.play_game(list_players)
+main()
