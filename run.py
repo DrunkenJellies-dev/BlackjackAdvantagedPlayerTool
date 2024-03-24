@@ -115,11 +115,14 @@ class Game():
     def game_setup(self):
         #initializes the deck
         deck = Deck()
-        #adds a full deck of cards to the deck
-        deck.add_cards()
 
-        #shuffles the deck of cards
-        random.shuffle(deck.cards)
+        #checks if the deck is empty
+        if not deck:
+            #adds a full deck of cards to the deck
+            deck.add_cards()
+
+            #shuffles the deck of cards
+            random.shuffle(deck.cards)
 
         #loops through all players and adds 2 cards to their hands from the shuffled deck
         if len(self.players) > 0:
@@ -223,6 +226,7 @@ class Display():
       '--`                               _/ |                         ||
                                         |__/                         '--`
             """)
+        self.deck_count = 0
         
     def add_players(self):
         #getting the number of players from the user
@@ -275,6 +279,7 @@ class Display():
     def play_game(self, list_players):
         #starting the instance of the game
         game = Game()
+
         #Adding the players
         for player in list_players:
             game.add_player(player)
@@ -282,13 +287,16 @@ class Display():
         #Play the first round
         game.game_setup()
 
+        #initializing the amount of cards left in the deck
+        self.deck_count = game.deck.__len__()
+
         num_players_without_dealer = len(game.players) - 1
 
         #Show hand for each player
         for player_num in range(num_players_without_dealer):
             print(f"{game.players[player_num].name} has a {game.players[player_num].hand[0]} and a {game.players[player_num].hand[1]}\nTheir score is currently {game.players[player_num].score}")
 
-        #Print statement for the dealer as the players aren't normally able ot see their second card until the dealer starts playing
+        #Print statement for the dealer as the players aren't normally able ot see the second card until the dealer starts playing
         print(f"{game.players[-1].name} has a {game.players[-1].hand[0]} and X.\nTheir score is currently {game.players[-1].score - game.players[-1].hand[1].value}")
         
         #ask if the player wants to hit or stand
@@ -407,7 +415,7 @@ def main():
         display.play_game(list_players)
 
         # Check if there are less than 15 cards remaining in the deck 
-        if len(display.deck) < 15:
+        if display.deck_count < 15:
             print("Less than 15 cards remaining in the deck. Game over.")
             break #stops playing the game when there are less than 15 cards remaining as there might not be enough cards
 
@@ -415,6 +423,10 @@ def main():
         play_again = input("Do you want to play again? (y/n):\n").lower()
         if play_again == 'yes' or play_again == "y":
             print("Playing another round!")
+
+            for player in list_players:
+                player.hand = []
+                player.score = 0
         else:
             print("Thank you for playing!")
             break #quits when the players want to stop playing
