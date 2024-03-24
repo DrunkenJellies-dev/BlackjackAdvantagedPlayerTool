@@ -396,13 +396,20 @@ class Display():
 def main():
     #start game
     display = Display()
+    list_players = None
 
     while True:
-        # Add players
-        list_players = display.add_players()
+        if list_players is None:
+            # Add players
+            list_players = display.add_players()
 
         # Play the game
         display.play_game(list_players)
+
+        # Check if there are less than 15 cards remaining in the deck 
+        if len(display.deck) < 15:
+            print("Less than 15 cards remaining in the deck. Game over.")
+            break #stops playing the game when there are less than 15 cards remaining as there might not be enough cards
 
         # Ask if the player wants to play again
         play_again = input("Do you want to play again? (y/n): ").lower()
