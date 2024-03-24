@@ -188,7 +188,7 @@ class Game():
         # Check if the player has exactly two cards and they are of the same rank
         if len(player.hand) == 2 and player.hand[0].rank == player.hand[1].rank:
             while True:
-                choice = input(f"{player.name}, are you sure you want to split your cards? (y/n): ").lower()
+                choice = input(f"{player.name}, are you sure you want to split your cards? (y/n):\n").lower()
                 if choice == 'y' or choice == 'yes':
                     # Create a new hand for the split
                     split_hand = [player.hand.pop(1)]
@@ -214,14 +214,14 @@ class Display():
     """
     def __init__(self):
         print("""
-                 .-~~-.           /\        _     _            _    _            _             /\        .-~~~-__-~~~-.
-                {      }        .'  `.     | |   | |          | |  (_)          | |          .'  `.     {              }
-             .-~-.    .-~-.    '      `.   | |__ | | __ _  ___| | ___  __ _  ___| | __      '      `.    `.          .'
-            {              } <          >  | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /   .'          `.    `.      .'
-             `.__.'||`.__.'   `.      .'   | |_) | | (_| | (__|   <| | (_| | (__|   <   {              }     `.  .'
-                   ||           `.  .'     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\   ~-...-||-...-~        \/
-                  '--`            \/                              _/ |                         ||
-                                                                 |__/                         '--`
+     .-~~-.           /\        _     _            _    _            _             /\        .-~~~-__-~~~-.
+    {      }        .'  `.     | |   | |          | |  (_)          | |          .'  `.     {              }
+ .-~-.    .-~-.    '      `.   | |__ | | __ _  ___| | ___  __ _  ___| | __      '      `.    `.          .'
+{              } <          >  | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /   .'          `.    `.      .'
+ `.__.'||`.__.'   `.      .'   | |_) | | (_| | (__|   <| | (_| | (__|   <   {              }     `.  .'
+       ||           `.  .'     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\   ~-...-||-...-~        \/
+      '--`            \/                              _/ |                         ||
+                                                     |__/                         '--`
             """)
         
     def add_players(self):
@@ -230,7 +230,7 @@ class Display():
         while True:
             print("Please enter the number of players. (There can only be between 1-6 players)")
             #takes the users input
-            player_count = input("Enter the player count here: \n")
+            player_count = input("Enter the player count here:\n")
 
             #making sure the information that the player has given is within the correct parameters
             if validate_data(player_count):
@@ -247,7 +247,7 @@ class Display():
 
         #loops through each player and allows them to enter a name
         for player in range(player_count):
-            name = input(f"Player { player + 1 } please enter your name: ")
+            name = input(f"Player { player + 1 } please enter your name:\n")
             #adds the newly created player to the list 
             list_players.append(Player(name))
 
@@ -259,7 +259,7 @@ class Display():
             while True:
                 try: 
                     # gets the bet amount that each players wants
-                    bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100): "))
+                    bet_amount = int(input(f"{player.name}, please place your bet (10, 25, 50, or 100):\n"))
                     current_bet = player.credits #gets the current credit amount from the player
                     player.place_bet(bet_amount) #places the players bet
                     if player.credits < current_bet: #checks if the player has successfully placed a bet and breaks out loop
@@ -302,7 +302,7 @@ class Display():
                     if player.score > 21:
                         answer = 's'
                     else:
-                        answer = input(f"{player.name} would you like to (h)it, (s)tand, (d)ouble or (sp)lit?").lower()
+                        answer = input(f"{player.name} would you like to (h)it, (s)tand, (d)ouble or (sp)lit?\n").lower()
                         print()
                     if answer == 'h' or answer == 'hit':
                         game.next_card(player)
@@ -329,7 +329,7 @@ class Display():
                             valid = 0
 
                         while hasattr(player, 'split_hand'):
-                            choice = input(f"{player.name}, do you want to hit or stand for your split hand? (h/s): ").lower()
+                            choice = input(f"{player.name}, do you want to hit or stand for your split hand? (h/s):\n").lower()
                             if choice == 'h' or choice == 'hit':
                                 game.next_card(player, split=True)
                                 print(f"{player.name} received a {player.split_hand[-1]} for their split hand.\nYour split score is now {player.split_score}.")
@@ -412,7 +412,7 @@ def main():
             break #stops playing the game when there are less than 15 cards remaining as there might not be enough cards
 
         # Ask if the player wants to play again
-        play_again = input("Do you want to play again? (y/n): ").lower()
+        play_again = input("Do you want to play again? (y/n):\n").lower()
         if play_again == 'yes' or play_again == "y":
             print("Playing another round!")
         else:
