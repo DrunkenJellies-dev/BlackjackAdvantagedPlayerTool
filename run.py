@@ -281,7 +281,7 @@ class Display():
 
         #Play the first round
         game.game_setup()
-        
+
         num_players_without_dealer = len(game.players) - 1
 
         #Show hand for each player
@@ -397,10 +397,19 @@ def main():
     #start game
     display = Display()
 
-    #Add players
-    list_players = display.add_players()
+    while True:
+        # Add players
+        list_players = display.add_players()
 
-    #play the first round
-    display.play_game(list_players)
+        # Play the game
+        display.play_game(list_players)
+
+        # Ask if the player wants to play again
+        play_again = input("Do you want to play again? (y/n): ").lower()
+        if play_again == 'yes' or play_again == "y":
+            print("Playing another round!")
+        else:
+            print("Thank you for playing!")
+            break
 
 main()
