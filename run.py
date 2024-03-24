@@ -1,4 +1,4 @@
-import random 
+import random
 
 def validate_data(value):
     """
@@ -6,6 +6,7 @@ def validate_data(value):
     The amount of players needs to be an integer
     The amount of players also need to be between 1 and 6
     """
+    
     try:
         if not (1 <= int(value) <= 6):
             raise ValueError(
